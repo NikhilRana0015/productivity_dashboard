@@ -8,7 +8,7 @@ body {
 /* Custom scrollbar configurations for dashboard modules */
 .custom-scrollbar::-webkit-scrollbar {
     width: 6px;
-    height: 4px; /* for structural x-axis overflows */
+    height: 4px; 
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {

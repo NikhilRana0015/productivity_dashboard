@@ -1,6 +1,4 @@
-/* ==========================================================================
-   1. CLOCK MODULE
-   ========================================================================== */
+
 function updateClock() {
     const now = new Date();
     
@@ -17,9 +15,7 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock(); // Initialize execution immediately on boot
 
-/* ==========================================================================
-   2. CALCULATOR MODULE
-   ========================================================================== */
+
 const calcOutput = document.getElementById('calc-output');
 const calcHistory = document.getElementById('calc-history');
 let currentInput = '0';
@@ -94,7 +90,7 @@ function calculateResult() {
         default: return;
     }
 
-    // Prevents floating-point configuration anomalies (e.g., 0.1 + 0.2)
+   
     result = Math.round(result * 1000000) / 1000000;
 
     calcHistory.textContent = `${previousInput} ${getOpSymbol(operator)} ${currentInput} =`;
@@ -103,16 +99,13 @@ function calculateResult() {
     calcOutput.textContent = currentInput;
 }
 
-/* ==========================================================================
-   3. PERSISTENT NOTES MODULE
-   ========================================================================== */
+
 const noteForm = document.getElementById('note-form');
 const noteTitleInput = document.getElementById('note-title');
 const noteBodyInput = document.getElementById('note-body');
 const notesContainer = document.getElementById('notes-container');
 const noteCountBadge = document.getElementById('note-count');
 
-// Load stored entries array from localStorage schema
 let notes = JSON.parse(localStorage.getItem('dashboard_notes')) || [];
 
 function saveNotes() {
@@ -179,9 +172,7 @@ function escapeHTML(str) {
 renderNotes();
 
 
-/* ==========================================================================
-   4. KEYBOARD SUPPORT EXTENSION
-   ========================================================================== */
+
 document.addEventListener('keydown', (event) => {
     // If the user is currently typing inside the Notes form, don't trigger the calculator
     if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
