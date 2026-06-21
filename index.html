@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekend Challenge: Productivity Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="text-slate-100 min-h-screen p-4 md:p-8 flex flex-col justify-between">
+
+    <header class="max-w-7xl mx-auto w-full mb-8 flex flex-col sm:flex-row justify-between items-center gap-4 border-b border-slate-800 pb-4">
+        <div>
+            <h1 class="text-3xl font-bold tracking-tight bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+                Productivity Hub
+            </h1>
+            <p class="text-slate-400 text-sm mt-1">Weekend Challenge Dashboard</p>
+        </div>
+        <div id="clock-widget" class="text-center sm:text-right bg-slate-900/50 backdrop-blur-md px-6 py-2.5 rounded-2xl border border-slate-800 shadow-xl">
+            <div id="clock-time" class="text-2xl font-bold font-mono tracking-wider text-cyan-400">00:00:00</div>
+            <div id="clock-date" class="text-xs text-slate-400 font-medium uppercase tracking-widest mt-0.5">Loading Date...</div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-start flex-grow">
+        
+        <section class="lg:col-span-5 bg-slate-900/40 backdrop-blur-xl border border-slate-800 rounded-3xl p-6 shadow-2xl flex flex-col h-full justify-between">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="p-2.5 bg-indigo-500/10 rounded-xl text-indigo-400">
+                    <i class="fa-solid fa-calculator text-lg"></i>
+                </div>
+                <h2 class="text-lg font-semibold tracking-wide">Calculator</h2>
+            </div>
+
+            <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 mb-4 text-right flex flex-col justify-end min-h-[96px] overflow-hidden">
+                <div id="calc-history" class="text-sm text-slate-500 font-mono tracking-tight h-6 overflow-hidden break-all"></div>
+                <div id="calc-output" class="text-3xl font-semibold font-mono tracking-tight text-white mt-1 overflow-x-auto whitespace-nowrap custom-scrollbar">0</div>
+            </div>
+
+            <div class="grid grid-cols-4 gap-2.5">
+                <button onclick="clearCalc()" class="col-span-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 font-medium py-3.5 rounded-xl transition duration-200 border border-rose-500/20">C</button>
+                <button onclick="appendOperator('/')" class="bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 font-semibold py-3.5 rounded-xl transition duration-200 border border-indigo-500/10">÷</button>
+                <button onclick="appendOperator('*')" class="bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 font-semibold py-3.5 rounded-xl transition duration-200 border border-indigo-500/10">×</button>
+                
+                <button onclick="appendNumber('7')" class="bg-slate-800/40 hover:bg-slate-800/80 text-slate-200 py-3.5 rounded-xl transition duration-200 border border-slate-700/30">7</button>
+                <button onclick="appendNumber('8')" class="bg-slate-800/40 hover:bg-slate-800/80 text-slate-200 py-3.5 rounded-xl transition duration-200 border border-slate-700/30">8</button>
+                <button onclick="appendNumber('9')" class="bg-slate-800/40 hover:bg-slate-800/80 text-slate-200 py-3.5 rounded-xl transition duration-200 border border-slate-700/30">9</button>
+                <button onclick="appendOperator('-')" class="bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 font-semibold py-3.5 rounded-xl transition duration-200 border border-indigo-500/10">−</button>
+                
+                <button onclick="appendNumber('4')" class="bg-slate-800/40 hover:bg-slate-800/80 text-slate-200 py-3.5 rounded-xl transition duration-200 border border-slate-700/30">4</button>
+                <button onclick="appendNumber('5')" class="bg-slate-800/40 hover:bg-slate-800/80 text-slate-200 py-3.5 rounded-xl transition duration-200 border border-slate-700/30">5</button>
+                <button onclick="appendNumber('6')" class="bg-slate-800/40 hover:bg-slate-800/80 text-slate-200 py-3.5 rounded-xl transition duration-200 border border-slate-700/30">6</button>
+                <button onclick="appendOperator('+')" class="bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 font-semibold py-3.5 rounded-xl transition duration-200 border border-indigo-500/10">+</button>
+                
+                <div class="col-span-3 grid grid-cols-3 gap-2.5">
+                    <button onclick="appendNumber('1')" class="bg-slate-800/40 hover:bg-slate-800/80 text-slate-200 py-3.5 rounded-xl transition duration-200 border border-slate-700/30">1</button>
+                    <button onclick="appendNumber('2')" class="bg-slate-800/40 hover:bg-slate-800/80 text-slate-200 py-3.5 rounded-xl transition duration-200 border border-slate-700/30">2</button>
+                    <button onclick="appendNumber('3')" class="bg-slate-800/40 hover:bg-slate-800/80 text-slate-200 py-3.5 rounded-xl transition duration-200 border border-slate-700/30">3</button>
+                    <button onclick="appendNumber('0')" class="col-span-2 bg-slate-800/40 hover:bg-slate-800/80 text-slate-200 py-3.5 rounded-xl transition duration-200 border border-slate-700/30">0</button>
+                    <button onclick="appendDecimal('.')" class="bg-slate-800/40 hover:bg-slate-800/80 text-slate-200 py-3.5 rounded-xl transition duration-200 border border-slate-700/30">.</button>
+                </div>
+                <button onclick="calculateResult()" class="bg-gradient-to-b from-indigo-500 to-purple-600 hover:opacity-90 text-white font-bold rounded-xl transition duration-200 shadow-lg shadow-indigo-500/20 flex items-center justify-center text-xl">＝</button>
+            </div>
+        </section>
+
+        <section class="lg:col-span-7 bg-slate-900/40 backdrop-blur-xl border border-slate-800 rounded-3xl p-6 shadow-2xl flex flex-col h-full min-h-[460px]">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="p-2.5 bg-emerald-500/10 rounded-xl text-emerald-400">
+                        <i class="fa-solid fa-note-sticky text-lg"></i>
+                    </div>
+                    <h2 class="text-lg font-semibold tracking-wide">Quick Notes</h2>
+                </div>
+                <span id="note-count" class="text-xs bg-slate-800 px-2.5 py-1 rounded-full text-slate-400 font-medium">0 notes</span>
+            </div>
+
+            <form id="note-form" class="space-y-3 mb-6">
+                <input type="text" id="note-title" placeholder="Note Title..." required
+                    class="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 transition">
+                <div class="flex gap-2">
+                    <input type="text" id="note-body" placeholder="Take a quick note..." required
+                        class="flex-grow bg-slate-950/60 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 transition">
+                    <button type="submit" 
+                        class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 px-5 rounded-xl font-semibold text-sm transition shadow-lg shadow-emerald-500/10 flex items-center gap-2 whitespace-nowrap">
+                        <i class="fa-solid fa-plus"></i> Add
+                    </button>
+                </div>
+            </form>
+
+            <div id="notes-container" class="space-y-3 flex-grow overflow-y-auto max-h-[240px] custom-scrollbar pr-1">
+                </div>
+        </section>
+
+    </main>
+
+    <footer class="max-w-7xl mx-auto w-full mt-8 text-center text-xs text-slate-600 border-t border-slate-900 pt-4">
+         Built with Tailwind CSS & HTML5
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
